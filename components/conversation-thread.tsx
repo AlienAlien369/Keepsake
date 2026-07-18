@@ -16,7 +16,10 @@ export interface ThreadMessageView {
 interface ConversationThreadProps {
   messages: ThreadMessageView[];
   viewerRole: "admin" | "user";
-  action: (prevState: ThreadFormState, formData: FormData) => Promise<ThreadFormState>;
+  action: (
+    prevState: ThreadFormState,
+    formData: FormData,
+  ) => Promise<ThreadFormState>;
   placeholder?: string;
   emptyLabel?: string;
 }
@@ -28,7 +31,10 @@ export function ConversationThread({
   placeholder = "Write a reply...",
   emptyLabel = "No messages yet.",
 }: ConversationThreadProps) {
-  const [state, formAction, pending] = useActionState<ThreadFormState, FormData>(action, {});
+  const [state, formAction, pending] = useActionState<
+    ThreadFormState,
+    FormData
+  >(action, {});
   const formRef = useRef<HTMLFormElement>(null);
   const listEndRef = useRef<HTMLDivElement>(null);
   const prevPending = useRef(pending);
@@ -40,15 +46,17 @@ export function ConversationThread({
     prevPending.current = pending;
   }, [pending, state.error]);
 
-  useEffect(() => {
-    listEndRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
-  }, [messages.length]);
+  // useEffect(() => {
+  //   listEndRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
+  // }, [messages.length]);
 
   return (
     <div className="flex flex-col gap-4">
       <div className="flex max-h-[420px] flex-col gap-3 overflow-y-auto rounded-2xl glass p-4 sm:p-5">
         {messages.length === 0 && (
-          <p className="py-6 text-center text-sm text-ink-soft dark:text-paper/50">{emptyLabel}</p>
+          <p className="py-6 text-center text-sm text-ink-soft dark:text-paper/50">
+            {emptyLabel}
+          </p>
         )}
 
         {messages.map((message) => {
@@ -68,7 +76,9 @@ export function ConversationThread({
                     : "glass-strong text-ink dark:text-paper"
                 }`}
               >
-                <p className="whitespace-pre-wrap leading-relaxed">{message.body}</p>
+                <p className="whitespace-pre-wrap leading-relaxed">
+                  {message.body}
+                </p>
                 <p className="mt-1 text-[10px] uppercase tracking-wide text-ink-soft/60 dark:text-paper/40">
                   {message.sender === "ADMIN" ? "Sent from Keepsake" : "You"} ·{" "}
                   {new Date(message.createdAt).toLocaleString(undefined, {
@@ -93,7 +103,13 @@ export function ConversationThread({
           placeholder={placeholder}
           className="w-full resize-none rounded-2xl glass px-4 py-3 text-sm text-ink outline-none placeholder:text-ink-soft/50 dark:text-paper dark:placeholder:text-paper/30"
         />
-        <Button type="submit" variant="glow" size="icon" disabled={pending} aria-label="Send message">
+        <Button
+          type="submit"
+          variant="glow"
+          size="icon"
+          disabled={pending}
+          aria-label="Send message"
+        >
           <Send className="h-4 w-4" />
         </Button>
       </form>

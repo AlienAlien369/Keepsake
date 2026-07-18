@@ -43,7 +43,7 @@ export default function AdminLoginPage() {
               autoFocus
               required
               placeholder="you@company.com"
-              className="border-white/10 bg-white/[0.04] text-paper placeholder:text-paper/30"
+              className="border-white/10 bg-white/[0.04] text-ink placeholder:text-ink-soft/60 dark:text-paper dark:placeholder:text-paper/30"
             />
           </div>
           <div>
@@ -56,7 +56,7 @@ export default function AdminLoginPage() {
               type="password"
               required
               placeholder="••••••••"
-              className="border-white/10 bg-white/[0.04] text-paper placeholder:text-paper/30"
+              className="border-white/10 bg-white/[0.04] text-ink placeholder:text-ink-soft/60 dark:text-paper dark:placeholder:text-paper/30"
             />
           </div>
 

@@ -41,7 +41,7 @@ export default function EmployeeLoginPage() {
               autoFocus
               required
               placeholder="e.g. ACX-1042"
-              className="border-white/10 bg-white/[0.04] text-paper placeholder:text-paper/30"
+              className="border-white/10 bg-white/[0.04] text-ink placeholder:text-ink-soft/60 dark:text-paper dark:placeholder:text-paper/30"
             />
           </div>
 

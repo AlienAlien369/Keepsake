@@ -13,8 +13,15 @@ import { GratitudeCards } from "@/components/gratitude-cards";
 import { SurpriseEnding } from "@/components/surprise-ending";
 import { ConfettiBurst } from "@/components/confetti-burst";
 import { KeepsakeButton } from "@/components/keepsake-button";
-import { ConversationThread, type ThreadMessageView } from "@/components/conversation-thread";
-import { markLetterOpened, markLetterFinished, postUserReply } from "@/lib/actions/letter-actions";
+import {
+  ConversationThread,
+  type ThreadMessageView,
+} from "@/components/conversation-thread";
+import {
+  markLetterOpened,
+  markLetterFinished,
+  postUserReply,
+} from "@/lib/actions/letter-actions";
 import type { TimelineEntry, Memory } from "@/lib/letter-types";
 import { Heart } from "lucide-react";
 
@@ -45,7 +52,11 @@ export function LetterExperience({
   const [confettiFire, setConfettiFire] = useState(false);
   const [, startTransition] = useTransition();
 
-  const stage: "reading" | "ready" | "kept" = kept ? "kept" : endingSeen ? "ready" : "reading";
+  const stage: "reading" | "ready" | "kept" = kept
+    ? "kept"
+    : endingSeen
+      ? "ready"
+      : "reading";
 
   const handleOpen = () => {
     setOpened(true);
@@ -69,28 +80,26 @@ export function LetterExperience({
       <ConfettiBurst fire={confettiFire} />
 
       {/* Envelope opening moment */}
-      <section className="relative flex min-h-screen items-center justify-center px-4">
-        <AmbientBackground variant="paper" className="text-gold" />
-        <AmbientBackground variant="aurora" />
-        <AnimatePresence>
-          {!opened && (
-            <motion.div exit={{ opacity: 0, scale: 0.92, filter: "blur(8px)" }} transition={{ duration: 0.7 }}>
-              <Envelope name={name} isFirstVisit={!hasOpenedBefore} opened={opened} onOpen={handleOpen} />
-            </motion.div>
-          )}
-        </AnimatePresence>
+      {!opened && (
+        <section className="relative flex min-h-screen items-center justify-center px-4">
+          <AmbientBackground variant="paper" className="text-gold" />
+          <AmbientBackground variant="aurora" />
 
-        {opened && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.4, duration: 1 }}
-            className="pointer-events-none absolute bottom-10 flex flex-col items-center gap-1 text-ink-soft/60 dark:text-paper/40"
-          >
-            <span className="text-xs uppercase tracking-[0.3em]">scroll to read</span>
-          </motion.div>
-        )}
-      </section>
+          <AnimatePresence>
+            <motion.div
+              exit={{ opacity: 0, scale: 0.92, filter: "blur(8px)" }}
+              transition={{ duration: 0.7 }}
+            >
+              <Envelope
+                name={name}
+                isFirstVisit={!hasOpenedBefore}
+                opened={opened}
+                onOpen={handleOpen}
+              />
+            </motion.div>
+          </AnimatePresence>
+        </section>
+      )}
 
       {opened && (
         <>
@@ -124,25 +133,36 @@ export function LetterExperience({
             </div>
           </section>
 
-          {timeline.length > 0 || memories.length > 0 || gratitude.length > 0 ? (
+          {timeline.length > 0 ||
+          memories.length > 0 ||
+          gratitude.length > 0 ? (
             <>
               {memories.length > 0 && (
                 <section className="relative z-10 mx-auto max-w-4xl px-6 py-20">
-                  <SectionHeading eyebrow="Our Memories" title="A few moments worth keeping" />
+                  <SectionHeading
+                    eyebrow="Our Memories"
+                    title="A few moments worth keeping"
+                  />
                   <MemoryGallery memories={memories} />
                 </section>
               )}
 
               {timeline.length > 0 && (
                 <section className="relative z-10 mx-auto max-w-4xl px-6 py-20">
-                  <SectionHeading eyebrow="The Story So Far" title="How we got here" />
+                  <SectionHeading
+                    eyebrow="The Story So Far"
+                    title="How we got here"
+                  />
                   <Timeline entries={timeline} />
                 </section>
               )}
 
               {gratitude.length > 0 && (
                 <section className="relative z-10 mx-auto max-w-4xl px-6 py-20">
-                  <SectionHeading eyebrow="Gratitude" title="A few things I never said enough" />
+                  <SectionHeading
+                    eyebrow="Gratitude"
+                    title="A few things I never said enough"
+                  />
                   <GratitudeCards notes={gratitude} />
                 </section>
               )}
@@ -154,7 +174,10 @@ export function LetterExperience({
 
           {/* Write back */}
           <section className="relative z-10 mx-auto max-w-2xl px-6 pb-40 pt-4">
-            <SectionHeading eyebrow="Write back" title="Say whatever you'd like" />
+            <SectionHeading
+              eyebrow="Write back"
+              title="Say whatever you'd like"
+            />
             <ConversationThread
               messages={threadMessages}
               viewerRole="user"
@@ -171,7 +194,13 @@ export function LetterExperience({
   );
 }
 
-function SectionHeading({ eyebrow, title }: { eyebrow: string; title: string }) {
+function SectionHeading({
+  eyebrow,
+  title,
+}: {
+  eyebrow: string;
+  title: string;
+}) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 16 }}
@@ -180,8 +209,12 @@ function SectionHeading({ eyebrow, title }: { eyebrow: string; title: string }) 
       transition={{ duration: 0.6 }}
       className="mb-10 text-center"
     >
-      <p className="text-xs uppercase tracking-[0.3em] text-gold-soft">{eyebrow}</p>
-      <h2 className="mt-2 font-display text-2xl italic text-ink dark:text-paper sm:text-3xl">{title}</h2>
+      <p className="text-xs uppercase tracking-[0.3em] text-gold-soft">
+        {eyebrow}
+      </p>
+      <h2 className="mt-2 font-display text-2xl italic text-ink dark:text-paper sm:text-3xl">
+        {title}
+      </h2>
     </motion.div>
   );
 }
