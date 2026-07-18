@@ -10,7 +10,10 @@ import { Button } from "@/components/ui/button";
 import { loginUser, type FormState } from "@/lib/actions/auth-actions";
 
 export default function EmployeeLoginPage() {
-  const [state, formAction, pending] = useActionState<FormState, FormData>(loginUser, {});
+  const [state, formAction, pending] = useActionState<FormState, FormData>(
+    loginUser,
+    {},
+  );
 
   return (
     <main className="relative flex min-h-screen items-center justify-center overflow-hidden bg-night px-4">
@@ -26,8 +29,12 @@ export default function EmployeeLoginPage() {
           <div className="flex h-12 w-12 items-center justify-center rounded-full bg-gold/15">
             <KeyRound className="h-5 w-5 text-gold-bright" />
           </div>
-          <h1 className="font-display text-2xl italic text-paper">Find your letter</h1>
-          <p className="text-sm text-paper/60">Enter your employee ID to open it.</p>
+          <h1 className="font-display text-2xl italic text-paper">
+            Find your letter
+          </h1>
+          <p className="text-sm text-paper/60">
+            Enter your employee ID to open it.
+          </p>
         </div>
 
         <form action={formAction} className="flex flex-col gap-4">
@@ -45,9 +52,17 @@ export default function EmployeeLoginPage() {
             />
           </div>
 
-          {state.error && <p className="text-sm text-aurora-rose">{state.error}</p>}
+          {state.error && (
+            <p className="text-sm text-aurora-rose">{state.error}</p>
+          )}
 
-          <Button type="submit" variant="glow" size="lg" disabled={pending} className="mt-2 w-full">
+          <Button
+            type="submit"
+            variant="glow"
+            size="lg"
+            disabled={pending}
+            className="mt-2 w-full"
+          >
             {pending ? "Opening..." : "Open my letter"}
           </Button>
         </form>
