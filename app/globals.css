@@ -1,0 +1,101 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    color-scheme: light;
+  }
+
+  html.dark {
+    color-scheme: dark;
+  }
+
+  * {
+    @apply border-paper-line dark:border-white/10;
+  }
+
+  html,
+  body {
+    @apply h-full;
+  }
+
+  body {
+    @apply bg-paper text-ink dark:bg-night dark:text-paper font-body antialiased;
+    transition: background-color 0.6s ease, color 0.6s ease;
+  }
+
+  ::selection {
+    @apply bg-gold/30 text-ink dark:text-paper;
+  }
+
+  /* Visible keyboard focus everywhere */
+  :focus-visible {
+    outline: 2px solid theme("colors.gold.DEFAULT");
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    @apply bg-gold-soft/40 dark:bg-gold/30;
+    border-radius: 999px;
+  }
+}
+
+@layer utilities {
+  .glass {
+    @apply bg-white/40 dark:bg-white/[0.04] backdrop-blur-xl border border-white/50 dark:border-white/10;
+  }
+
+  .glass-strong {
+    @apply bg-white/60 dark:bg-white/[0.06] backdrop-blur-2xl border border-white/60 dark:border-white/[0.08];
+  }
+
+  .text-gradient-gold {
+    background: linear-gradient(110deg, #9c8a4e 0%, #e8c766 45%, #c9a227 75%, #e8c766 100%);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .shimmer-gold {
+    animation: shimmer 3.5s linear infinite;
+  }
+
+  .grain-overlay {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.035;
+    mix-blend-mode: overlay;
+    z-index: 60;
+  }
+}
+
+/* Respect reduced motion preference across the whole app */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+.custom-cursor {
+  pointer-events: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  mix-blend-mode: exclusion;
+}

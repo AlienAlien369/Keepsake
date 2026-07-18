@@ -1,0 +1,56 @@
+services:
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: keepsake
+      POSTGRES_PASSWORD: postgres_farewell_key
+      POSTGRES_DB: keepsake
+    volumes:
+      - keepsake_db_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U keepsake -d keepsake"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  # One-off container: pushes the Drizzle schema and seeds companies,
+  # an admin account, and sample letters, then exits. The `app` service
+  # waits for this to finish successfully before it starts.
+  migrate:
+    build:
+      context: .
+      target: builder
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgresql://keepsake:postgres_farewell_key@db:5432/keepsake
+      SESSION_SECRET: session_farewell_key
+      ADMIN_EMAIL: admin@keepsake.local
+      ADMIN_PASSWORD: admin_farewell_key
+      ADMIN_NAME: Lakshya
+    command: sh -c "npm run db:push && npm run db:seed"
+
+  app:
+    build:
+      context: .
+      target: runner
+    restart: unless-stopped
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    environment:
+      NODE_ENV: production
+      DATABASE_URL: postgresql://keepsake:postgres_farewell_key@db:5432/keepsake
+      SESSION_SECRET: session_farewell_key
+      NEXT_PUBLIC_SITE_URL: http://localhost:3000
+      RESEND_API_KEY: resend_farewell_key
+      RESEND_FROM_EMAIL: "Keepsake <onboarding@resend.dev>"
+    ports:
+      - "3000:3000"
+
+volumes:
+  keepsake_db_data:
