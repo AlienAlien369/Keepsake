@@ -17,7 +17,7 @@ export default function LandingPage() {
   const [showButton, setShowButton] = useState(false);
 
   return (
-    <main className="relative flex min-h-screen items-center justify-center overflow-hidden bg-night">
+    <main className="relative flex min-h-screen items-center justify-center overflow-hidden bg-paper dark:bg-night">
       <AmbientBackground variant="aurora" />
 
       <div className="absolute right-5 top-5 z-20">

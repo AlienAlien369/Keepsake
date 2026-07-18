@@ -17,14 +17,16 @@ interface TypewriterSequenceProps {
  */
 export function TypewriterSequence({
   lines,
-  typeSpeed = 45,
-  pauseAfter = 1400,
+  typeSpeed = 60,
+  pauseAfter = 1000,
   onDone,
   className = "",
 }: TypewriterSequenceProps) {
   const [lineIndex, setLineIndex] = useState(0);
   const [displayed, setDisplayed] = useState("");
-  const [phase, setPhase] = useState<"typing" | "holding" | "leaving">("typing");
+  const [phase, setPhase] = useState<"typing" | "holding" | "leaving">(
+    "typing",
+  );
 
   useEffect(() => {
     if (lineIndex >= lines.length) return;
@@ -62,7 +64,9 @@ export function TypewriterSequence({
   }, [displayed, phase, lineIndex]);
 
   return (
-    <div className={`relative flex min-h-[8rem] items-center justify-center px-6 text-center ${className}`}>
+    <div
+      className={`relative flex min-h-[8rem] items-center justify-center px-6 text-center ${className}`}
+    >
       <AnimatePresence mode="wait">
         <motion.p
           key={lineIndex}
@@ -73,7 +77,10 @@ export function TypewriterSequence({
           className="font-display text-2xl italic leading-relaxed text-ink dark:text-paper sm:text-3xl md:text-4xl"
         >
           {displayed}
-          <span className="ml-0.5 inline-block w-[2px] animate-pulse bg-gold align-middle" style={{ height: "1em" }} />
+          <span
+            className="ml-0.5 inline-block w-[2px] animate-pulse bg-gold align-middle"
+            style={{ height: "1em" }}
+          />
         </motion.p>
       </AnimatePresence>
     </div>
